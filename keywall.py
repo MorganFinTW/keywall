@@ -4,6 +4,8 @@ import logging
 from optparse import OptionParser
 
 from utility.logger import Logger
+from utility.utils import get_client
+import client
 
 if __name__ == '__main__':
     optParser = OptionParser(usage="""
@@ -11,7 +13,7 @@ if __name__ == '__main__':
             with TF-IDF vector.
             """)
     optParser.add_option("--source",
-                         default='google',
+                         default='GoogleRSS',
                          dest="source",
                          help="the input articles rss source.")
     optParser.add_option("--output",
@@ -23,6 +25,7 @@ if __name__ == '__main__':
     logger = Logger('keywall.greper', level=logging.DEBUG)
 
     try:
-        logger.info("keyboard interrupt main tread shutdown")
+        client = get_client(options, args)
+        client.run()
     except KeyboardInterrupt:
         logger.info("keyboard interrupt main tread shutdown")
