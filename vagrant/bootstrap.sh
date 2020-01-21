@@ -2,14 +2,14 @@
 
 DEPS="ntp python3-dev virtualenvwrapper"
 
-if [[ "$EUID" -ne "0" ]] ; then
+if [ "$EUID" -ne "0" ] ; then
     echo "Script must be run as root." >&2
     exit 1
 fi
 
 apt-get install -y aptitude
 aptitude update
-[[ -f /.vagrant_provisioned ]] && echo "Provisioning ran already." && \
+[ -f /.vagrant_provisioned ] && echo "Provisioning ran already." && \
     aptitude install -y ${DEPS} && \
     exit 0
 
