@@ -25,7 +25,7 @@ if __name__ == '__main__':
     logger = Logger('keywall.greper', level=logging.DEBUG)
 
     try:
-        client = get_client(options, args)
+        client = get_client(options, *args, logger=logger)
         client.run()
     except KeyboardInterrupt:
-        logger.info("keyboard interrupt main tread shutdown")
+        logger.error("keyboard interrupt main tread shutdown")
