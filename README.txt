@@ -18,10 +18,17 @@ mkvirtualenv env --python=/usr/bin/python3
 workon env
 pip install -r requirement.txt
 pipenv sync
+python ./setup.py
+```
+
+after all above commands are been done, run the following command to execute
+keywall.
+
+``` {.bash}
 python ./keywall.py --enable-save
 ```
 
-to see more options
+alos, to see more options.
 
 ``` {.bash}
 python ./keywall.py -h
@@ -30,6 +37,8 @@ python ./keywall.py -h
 ### open source packages
 
 -   atoma ( RSS parser https://github.com/NicolasLM/atoma )
+-   beautifulsoup4 ( html/xml parser )
+-   html5lib ( html5 library for html parsing )
 -   nltk ( tokenize https://www.nltk.org/ )
 -   pyyaml ( yaml config parser )
 -   requests ( HTTP request handler )
