@@ -14,5 +14,16 @@ mkvirtualenv env --python=/usr/bin/python3
 workon env
 pip install -r requirement.txt
 pipenv sync
-python ./keywall.py
+python ./keywall.py --enable-save
 ```
+
+to see more options
+```bash
+python ./keywall.py -h
+```
+
+### open source packages
+- atoma ( RSS parser https://github.com/NicolasLM/atoma )
+- nltk ( tokenize https://www.nltk.org/ )
+- pyyaml ( yaml config parser )
+- requests ( HTTP request handler )
