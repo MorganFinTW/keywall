@@ -9,6 +9,7 @@ verify_ssl = true
 nltk = "*"
 atoma = "*"
 requests = "*"
+pyyaml = "*"
 
 [requires]
 python_version = "3.6"

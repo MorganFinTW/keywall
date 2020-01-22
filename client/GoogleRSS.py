@@ -9,8 +9,6 @@ class GoogleRSS(Client):
     """
     Grep Google RSS content, and transform into tokens
     """
-    #
-    url = 'https://news.google.com/rss?hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
 
     def __init__(self, *args, **kwargs):
         super(GoogleRSS, self).__init__(*args, **kwargs)

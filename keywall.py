@@ -4,8 +4,7 @@ import logging
 from optparse import OptionParser
 
 from utility.logger import Logger
-from utility.utils import get_client
-import client
+from utility.utils import get_client, init_config
 
 if __name__ == '__main__':
     optParser = OptionParser(usage="""
@@ -28,7 +27,8 @@ if __name__ == '__main__':
                               " default show log at console only")
     (options, args) = optParser.parse_args()
 
-    level = logging.DEBUG
+    Settings = init_config()
+    level = max(Settings.LogLevel, logging.NOTSET)
     logger = Logger('keywall.greper', level=level, enable=options.log)
 
     try:
