@@ -15,14 +15,21 @@ if __name__ == '__main__':
     optParser.add_option("--source",
                          default='GoogleRSS',
                          dest="source",
-                         help="the input articles rss source.")
-    optParser.add_option("--output",
-                         default='output.txt',
-                         dest="output",
-                         help="the output file name.")
+                         help="choose the client resource.")
+    optParser.add_option("--enable-save",
+                         action="store_true",
+                         dest="save",
+                         help="enable store output files."
+                              " default won't saving anything")
+    optParser.add_option("--log",
+                         action="store_true",
+                         dest="log",
+                         help="enable logger to file."
+                              " default show log at console only")
     (options, args) = optParser.parse_args()
 
-    logger = Logger('keywall.greper', level=logging.DEBUG)
+    level = logging.DEBUG
+    logger = Logger('keywall.greper', level=level, enable=options.log)
 
     try:
         client = get_client(options, *args, logger=logger)

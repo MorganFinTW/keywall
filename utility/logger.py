@@ -6,27 +6,28 @@ class Logger(object):
     """
     class handle logging stuff
     """
-    log_name = 'keywall'
+    log_name = 'keywall.log'
 
-    def __init__(self, name, prefix='', level=logging.DEBUG):
+    def __init__(self, name, prefix='', level=logging.DEBUG, enable=True):
         self._logger = logging.getLogger(name)
         self.prefix = prefix
 
         # Do not propagate to parent
         self._logger.propagate = 0
 
-        file_handler = logging.FileHandler("./%s.log" % self.log_name)
-
         formatstring = ('[%(asctime)s][%(levelname)s][%(name)s]'
                         '[%(process)d %(processName)s]'
                         '[%(funcName)s (line %(lineno)d)]%(message)s')
-        formatter = logging.Formatter(formatstring)
-        file_handler.setFormatter(formatter)
-        self._logger.addHandler(file_handler)
 
-        console_handler = logging.StreamHandler()
-        console_handler.setFormatter(logging.Formatter(formatstring))
-        self._logger.addHandler(console_handler)
+        if enable:
+            file_handler = logging.FileHandler("./%s.log" % self.log_name)
+            formatter = logging.Formatter(formatstring)
+            file_handler.setFormatter(formatter)
+            self._logger.addHandler(file_handler)
+        else:
+            console_handler = logging.StreamHandler()
+            console_handler.setFormatter(logging.Formatter(formatstring))
+            self._logger.addHandler(console_handler)
 
         self._logger.setLevel(level)
 
