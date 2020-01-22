@@ -25,13 +25,24 @@ def tokenize(text: str):
     return stems
 
 
-def remove_htmltags(html: str):
+def remove_htmltags(html: str) -> str:
+    """
+    remove html tags from content
+    :param html:
+    :return:
+    """
     soup = BeautifulSoup(html, "html5lib")
     return soup.get_text()
 
 
-def remove_special_character(text: str):
-    # remove non chinese symbols
+def remove_special_character(text: str) -> str:
+    """
+    remove some special character from text
+    :param text:
+    :return:
+    """
+    # https://www.compart.com/en/unicode/
+    # remove some non-chinese special symbols
     # https://unicode-table.com/en/blocks/basic-latin/
     # !"#$%'()*+,;<=>[\]^`{|}~
     # https://unicode-table.com/en/blocks/box-drawing/
