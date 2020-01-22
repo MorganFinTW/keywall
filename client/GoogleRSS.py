@@ -3,7 +3,8 @@ import requests
 from requests.exceptions import RequestException
 
 from client.base import Client
-from utility.tokenize import tokenize, remove_htmltags
+from utility.tokenize import tokenize, remove_htmltags, \
+    remove_special_character
 
 
 class GoogleRSS(Client):
@@ -15,34 +16,37 @@ class GoogleRSS(Client):
         super(GoogleRSS, self).__init__(*args, **kwargs)
 
     def run(self):
-
-        self.raw = self.get_rss()
+        raw = self.read_raw_from_file()
+        self.raw = raw if raw else self.get_rss()
 
         if self.raw:
             feed = self.serializer(self.raw)
-            if feed.items:
-                (self.content, self.tokens) = self.get_description_content_and_tokens(
-                    feed.items)
+            if feed and feed.items:
+                (self.content,
+                 self.tokens) = self.get_desc_contents_n_tokens(feed.items)
 
         if self.is_save:
             self.save()
 
-    def get_description_content_and_tokens(self, feed_items):
+    def get_desc_contents_n_tokens(self, feed_items):
         content, tokens = "", ""
         for post in feed_items:
+
             self._logger.debug("post summary: %s" % post.description)
             content += "%s\n" % post.description
 
-            # TODO: need tokenize post.description
-            _tokens = self.get_tokens(post.description)
+            _plaintext, _tokens = self.get_tokens(post.description)
+            self._logger.debug("text: %s" % _plaintext)
             self._logger.debug("tokens: %s" % _tokens)
             tokens += "%s\n" % _tokens
 
         return content, tokens
 
-    def get_tokens(self, html: str):
+    @staticmethod
+    def get_tokens(html: str) -> (str, list):
         text = remove_htmltags(html)  # strip http tags
-        return tokenize(text)
+        plaintext = remove_special_character(text)  # strip http tags
+        return plaintext, tokenize(plaintext)
 
     def serializer(self, content: bytes):
         feed = None

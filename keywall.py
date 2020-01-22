@@ -4,7 +4,8 @@ import logging
 from optparse import OptionParser
 
 from utility.logger import Logger
-from utility.utils import get_client, init_config
+from utility.utils import get_client
+from utility.config import init_config
 
 if __name__ == '__main__':
     optParser = OptionParser(usage="""
