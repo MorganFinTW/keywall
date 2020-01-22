@@ -3,6 +3,7 @@ import requests
 from requests.exceptions import RequestException
 
 from client.base import Client
+from utility.tokenize import tokenize, remove_htmltags
 
 
 class GoogleRSS(Client):
@@ -29,13 +30,19 @@ class GoogleRSS(Client):
     def get_description_content_and_tokens(self, feed_items):
         content, tokens = "", ""
         for post in feed_items:
+            self._logger.debug("post summary: %s" % post.description)
             content += "%s\n" % post.description
-            self._logger.debug("post summary: " + post.description)
 
             # TODO: need tokenize post.description
-            tokens
+            _tokens = self.get_tokens(post.description)
+            self._logger.debug("tokens: %s" % _tokens)
+            tokens += "%s\n" % _tokens
 
         return content, tokens
+
+    def get_tokens(self, html: str):
+        text = remove_htmltags(html)  # strip http tags
+        return tokenize(text)
 
     def serializer(self, content: bytes):
         feed = None

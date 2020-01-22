@@ -28,7 +28,7 @@ class Client:
             (output_setting.get('q1_path', '.'),
              'description.txt', self.content),
             (output_setting.get('q1_path', '.'),
-             'output.txt', self.content)
+             'output.txt', self.tokens)
         ]
 
         for path, name, text in data_list:
