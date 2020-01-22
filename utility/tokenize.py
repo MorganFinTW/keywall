@@ -2,9 +2,6 @@ from bs4 import BeautifulSoup
 from nltk import word_tokenize, re
 from nltk.stem.porter import PorterStemmer
 
-# todo:nltk setup issue
-# >>> import nltk
-# >>> nltk.download('punkt')
 
 Stemmer = PorterStemmer()
 
