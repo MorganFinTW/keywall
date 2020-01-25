@@ -1,9 +1,18 @@
 from bs4 import BeautifulSoup
 from nltk import word_tokenize, re
 from nltk.stem.porter import PorterStemmer
+from nltk.stem.snowball import SnowballStemmer
+
+Stemmer = None
 
 
-Stemmer = PorterStemmer()
+def init_stemmer(options, *args, **kwargs):
+    global Stemmer
+
+    if options.stemmer == "porter":
+        Stemmer = PorterStemmer()
+    elif options.stemmer == "snowball":
+        Stemmer = SnowballStemmer("english")
 
 
 def stem_tokens(tokens, stemmer):
@@ -18,18 +27,19 @@ def tokenize(text: str):
     tokens = word_tokenize(text)
 
     # stem wording
-    stems = stem_tokens(tokens, Stemmer)
-    return stems
+    if Stemmer:
+        tokens = stem_tokens(tokens, Stemmer)
+    return tokens
 
 
 def remove_htmltags(html: str) -> str:
     """
-    remove html tags from content
+    replace html tags with space from content
     :param html:
     :return:
     """
     soup = BeautifulSoup(html, "html5lib")
-    return soup.get_text()
+    return ' '.join(soup.findAll(text=True))
 
 
 def remove_special_character(text: str) -> str:

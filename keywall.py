@@ -4,6 +4,7 @@ import logging
 from optparse import OptionParser
 
 from utility.logger import Logger
+from utility.tokenize import init_stemmer
 from utility.utils import get_client
 from utility.config import init_config
 
@@ -21,11 +22,20 @@ if __name__ == '__main__':
                          dest="save",
                          help="enable store output files."
                               " default won't saving anything")
+    optParser.add_option("--force-download",
+                         action="store_true",
+                         dest="force",
+                         help="force to renew the source data"
+                              " default won't saving anything")
     optParser.add_option("--log",
                          action="store_true",
                          dest="log",
                          help="enable logger to file."
                               " default show log at console only")
+    optParser.add_option("--stemmer",
+                         default=None,
+                         dest="stemmer",
+                         help="customize stemmer type, (porter, snowball)")
     (options, args) = optParser.parse_args()
 
     Settings = init_config()
@@ -33,6 +43,7 @@ if __name__ == '__main__':
     logger = Logger('keywall.greper', level=level, enable=options.log)
 
     try:
+        init_stemmer(options, *args, logger=logger)
         client = get_client(options, *args, logger=logger)
         client.run()
     except KeyboardInterrupt:
