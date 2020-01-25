@@ -30,7 +30,9 @@ class GoogleRSS(Client):
 
     def get_desc_contents_n_tokens(self, feed_items):
         content, tokens = "", ""
+        count = 1
         for post in feed_items:
+            self._logger.debug("post number: %s" % count)
 
             self._logger.debug("post summary: %s" % post.description)
             content += "%s\n" % post.description
@@ -39,6 +41,8 @@ class GoogleRSS(Client):
             self._logger.debug("text: %s" % _plaintext)
             self._logger.debug("tokens: %s" % _tokens)
             tokens += "%s\n" % _tokens
+
+            count += 1
 
         return content, tokens
 
