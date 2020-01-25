@@ -3,8 +3,6 @@ import requests
 from requests.exceptions import RequestException
 
 from client.base import Client
-from utility.tokenize import tokenize, remove_htmltags, \
-    remove_special_character
 
 
 class GoogleRSS(Client):
@@ -37,23 +35,17 @@ class GoogleRSS(Client):
         for post in feed_items:
             self._logger.debug("post number: %s" % count)
 
-            self._logger.debug("post summary: %s" % post.description)
+            self._logger.debug("post content: %s" % post.description)
             content += "%s\n" % post.description
 
             _plaintext, _tokens = self.get_tokens(post.description)
-            self._logger.debug("text: %s" % _plaintext)
+            self._logger.debug("plaintext: %s" % _plaintext)
             self._logger.debug("tokens: %s" % _tokens)
             tokens += "%s\n" % _tokens
 
             count += 1
 
         return content, tokens
-
-    @staticmethod
-    def get_tokens(html: str) -> (str, list):
-        text = remove_htmltags(html)  # strip http tags
-        plaintext = remove_special_character(text)  # strip http tags
-        return plaintext, tokenize(plaintext)
 
     def serializer(self, content: bytes):
         feed = None

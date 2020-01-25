@@ -1,3 +1,5 @@
+from utility.tokenize import remove_htmltags, remove_special_character, \
+    tokenize
 from utility.utils import save_text_to_file, read_text_from_file
 from utility.config import init_config
 
@@ -8,9 +10,21 @@ output_setting = Settings.get('OUTPUT')
 class Client:
 
     raw = None
+    """
+    raw field, the raw data from client request
+    """
+
     content = None
+    """
+    content filed, the plaintext strip html tags or special characters
+    """
+
     tokens = None
-    url = None
+    """
+    tokens filed, a list include all tokens from content.
+    """
+
+    url = None  # client request base url
 
     filename_raw = 'raw.txt'
     filename_content = 'content.txt'
@@ -63,3 +77,9 @@ class Client:
         except Exception as e:
             self._logger.error("can't read raw from file: %s" % e)
             return None
+
+    @staticmethod
+    def get_tokens(html: str) -> (str, list):
+        text = remove_htmltags(html)  # strip http tags
+        plaintext = remove_special_character(text)  # strip http tags
+        return plaintext, tokenize(plaintext)
