@@ -12,13 +12,21 @@ class Client:
     tokens = None
     url = None
 
-    def __init__(self, *args, logger=None, save=False):
+    filename_raw = 'raw.txt'
+    filename_content = 'content.txt'
+    filename_output = 'output.txt'
+
+    def __init__(self, *args, logger=None, save=False, force_update=False):
         global Settings
         self._logger = logger
         self.is_save: bool = save
+        self.force_update: bool = force_update
         self.url = getattr(Settings, self.__class__.__name__)['url']
 
     def run(self):
+        raise NotImplementedError
+
+    def get_raw(self):
         raise NotImplementedError
 
     def save(self):
@@ -27,17 +35,17 @@ class Client:
         data_list = [
             (
                 output_setting.get('q1_path', '.'),
-                'news.rss',
+                self.filename_raw,
                 self.raw.decode()
             ),
             (
                 output_setting.get('q1_path', '.'),
-                'description.txt',
+                self.filename_content,
                 self.content
             ),
             (
                 output_setting.get('q1_path', '.'),
-                'output.txt',
+                self.filename_output,
                 self.tokens
             )
         ]
@@ -46,9 +54,12 @@ class Client:
             if c:
                 save_text_to_file(p, n, c)
 
-    @staticmethod
-    def read_raw_from_file():
-        return read_text_from_file(
-            output_setting.get('q1_path', '.'),
-            output_setting.get('q1_rss', 'news.rss')
-        )
+    def read_raw_from_file(self):
+        try:
+            return read_text_from_file(
+                output_setting.get('q1_path', '.'),
+                output_setting.get('q1_rss', 'news.rss')
+            )
+        except Exception as e:
+            self._logger.error("can't read raw from file: %s" % e)
+            return None

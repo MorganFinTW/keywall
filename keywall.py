@@ -22,11 +22,10 @@ if __name__ == '__main__':
                          dest="save",
                          help="enable store output files."
                               " default won't saving anything")
-    optParser.add_option("--force-download",
+    optParser.add_option("--force-update",
                          action="store_true",
-                         dest="force",
-                         help="force to renew the source data"
-                              " default won't saving anything")
+                         dest="force_update",
+                         help="force to renew the source data.")
     optParser.add_option("--log",
                          action="store_true",
                          dest="log",

@@ -15,9 +15,12 @@ class GoogleRSS(Client):
     def __init__(self, *args, **kwargs):
         super(GoogleRSS, self).__init__(*args, **kwargs)
 
+        self.filename_raw = 'news.rss'
+        self.filename_content = 'description.txt'
+        self.filename_output = 'output.txt'
+
     def run(self):
-        raw = self.read_raw_from_file()
-        self.raw = raw if raw else self.get_rss()
+        self.raw = self.get_raw()
 
         if self.raw:
             feed = self.serializer(self.raw)
@@ -60,6 +63,12 @@ class GoogleRSS(Client):
             self._logger.error("can't parser RSS")
 
         return feed
+
+    def get_raw(self):
+        raw = None
+        if not self.force_update:
+            raw = self.read_raw_from_file()
+        return raw if raw else self.get_rss()
 
     def get_rss(self) -> bytes:
         response = None
