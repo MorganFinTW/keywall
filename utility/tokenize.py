@@ -34,7 +34,7 @@ def remove_htmltags(html: str) -> str:
 
 def remove_special_character(text: str) -> str:
     """
-    remove some special character from text
+    replace some special character with space from text
     :param text:
     :return:
     """
