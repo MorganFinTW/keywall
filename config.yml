@@ -16,8 +16,6 @@ GoogleRSS:
 OUTPUT:
 # the question 1 output save path
   q1_path: './output/q1/'
-  q1_rss: 'news.rss'
-  q1_description: 'description.txt'
-  q1_output: 'output.txt:'
+
 # the question 2 output save path
   q2_path: './output/q2/'

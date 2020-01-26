@@ -72,7 +72,7 @@ class Client:
         try:
             return read_text_from_file(
                 output_setting.get('q1_path', '.'),
-                output_setting.get('q1_rss', 'news.rss')
+                self.filename_raw
             )
         except Exception as e:
             self._logger.error("can't read raw from file: %s" % e)
