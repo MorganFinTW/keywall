@@ -7,9 +7,10 @@ def init_config():
     if not Settings:
         config = read_config('./config.yml')
         Settings.update({
-            'LogLevel': config.get('LogLevel'),
             'GoogleRSS': config.get('GoogleRSS'),
+            'LogLevel': config.get('LogLevel'),
             'OUTPUT': config.get('OUTPUT'),
+            'SK_SETTING': config.get('SK_SETTING'),
         })
     return Settings
 

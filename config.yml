@@ -19,3 +19,8 @@ OUTPUT:
 
 # the question 2 output save path
   q2_path: './output/q2/'
+
+
+SK_SETTING:
+  min_df: 1
+  max_df: 1.0

@@ -4,7 +4,11 @@ from nltk.stem.porter import PorterStemmer
 from nltk.stem.snowball import SnowballStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+from utility.config import init_config
+
 Stemmer = None
+Settings = init_config()
+sk_setting = Settings.get('SK_SETTING')
 
 
 def init_stemmer(options, *args, **kwargs):
@@ -78,9 +82,9 @@ def tfidf_vector(tokens: list):
                                  encoding='utf-8',
                                  input='content',
                                  lowercase=True,
-                                 max_df=1.0,
+                                 max_df=sk_setting.get('max_df'),
                                  max_features=None,
-                                 min_df=1,
+                                 min_df=sk_setting.get('min_df'),
                                  ngram_range=(1, 1),
                                  norm='l2',
                                  preprocessor=None,
