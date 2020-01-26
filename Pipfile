@@ -12,6 +12,8 @@ requests = "*"
 pyyaml = "*"
 beautifulsoup4 = "*"
 html5lib = "*"
+sklearn = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.6"

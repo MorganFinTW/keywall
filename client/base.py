@@ -1,3 +1,5 @@
+import numpy as np
+
 from utility.tokenize import remove_htmltags, remove_special_character, \
     tokenize
 from utility.utils import save_text_to_file, read_text_from_file
@@ -8,20 +10,24 @@ output_setting = Settings.get('OUTPUT')
 
 
 class Client:
-
-    raw = None
+    raw: str = None
     """
     raw field, the raw data from client request
     """
 
-    content = None
+    content: str = None
     """
-    content filed, the plaintext strip html tags or special characters
+    content field, the plaintext strip html tags or special characters
     """
 
-    tokens = None
+    tokens: list = None
     """
-    tokens filed, a list include all tokens from content.
+    tokens field, a list include all tokens from content.
+    """
+
+    vector = None
+    """
+    vector matrix, an array of features values.
     """
 
     url = None  # client request base url
@@ -60,7 +66,13 @@ class Client:
             (
                 output_setting.get('q1_path', '.'),
                 self.filename_output,
-                self.tokens
+                '\n'.join(self.tokens)
+            ),
+            (
+                output_setting.get('q2_path', '.'),
+                self.filename_output,
+                str('\n'.join([str(["{:.3}".format(n) for n in l]) for l in
+                               self.vector.tolist()]))
             )
         ]
 

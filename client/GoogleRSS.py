@@ -3,6 +3,7 @@ import requests
 from requests.exceptions import RequestException
 
 from client.base import Client
+from utility.tokenize import tfidf_vector
 
 
 class GoogleRSS(Client):
@@ -26,11 +27,13 @@ class GoogleRSS(Client):
                 (self.content,
                  self.tokens) = self.get_desc_contents_n_tokens(feed.items)
 
+            self.vector = tfidf_vector(self.tokens)
+
         if self.is_save:
             self.save()
 
     def get_desc_contents_n_tokens(self, feed_items):
-        content, tokens = "", ""
+        content, tokens = "", []
         count = 1
         for post in feed_items:
             self._logger.debug("post number: %s" % count)
@@ -41,7 +44,7 @@ class GoogleRSS(Client):
             _plaintext, _tokens = self.get_tokens(post.description)
             self._logger.debug("plaintext: %s" % _plaintext)
             self._logger.debug("tokens: %s" % _tokens)
-            tokens += "%s\n" % _tokens
+            tokens.append("%s" % " ".join(_tokens))
 
             count += 1
 

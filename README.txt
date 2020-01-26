@@ -42,4 +42,5 @@ python ./keywall.py -h
 -   nltk ( tokenize https://www.nltk.org/ )
 -   pyyaml ( yaml config parser )
 -   requests ( HTTP request handler )
+-   scikit-learn
 

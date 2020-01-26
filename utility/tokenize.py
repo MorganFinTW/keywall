@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from nltk import word_tokenize, re
 from nltk.stem.porter import PorterStemmer
 from nltk.stem.snowball import SnowballStemmer
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 Stemmer = None
 
@@ -67,3 +68,28 @@ def remove_special_character(text: str) -> str:
                   r'\uFE30-\uFE4F'
                   r'\uFF00-\uFFEF'
                   r']+', ' ', text)
+
+
+def tfidf_vector(tokens: list):
+    vectorizer = TfidfVectorizer(analyzer='word',
+                                 binary=False,
+                                 decode_error='strict',
+                                 encoding='utf-8',
+                                 input='content',
+                                 lowercase=True,
+                                 max_df=1.0,
+                                 max_features=None,
+                                 min_df=1,
+                                 ngram_range=(1, 1),
+                                 norm='l2',
+                                 preprocessor=None,
+                                 smooth_idf=True,
+                                 stop_words='english',
+                                 strip_accents=None,
+                                 sublinear_tf=False,
+                                 token_pattern='(?u)\\b\\w\\w+\\b',
+                                 tokenizer=tokenize,
+                                 use_idf=True,
+                                 vocabulary=None
+                                 )
+    return vectorizer.fit_transform(tokens).toarray()
