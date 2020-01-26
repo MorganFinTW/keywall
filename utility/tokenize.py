@@ -71,6 +71,7 @@ def remove_special_character(text: str) -> str:
 
 
 def tfidf_vector(tokens: list):
+    # https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html
     vectorizer = TfidfVectorizer(analyzer='word',
                                  binary=False,
                                  decode_error='strict',
